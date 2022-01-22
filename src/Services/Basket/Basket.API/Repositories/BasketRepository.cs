@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Basket.API.Repositories
@@ -36,5 +37,6 @@ namespace Basket.API.Repositories
         {
             await _redisCache.RemoveAsync(userName);
         }
+
     }
 }
