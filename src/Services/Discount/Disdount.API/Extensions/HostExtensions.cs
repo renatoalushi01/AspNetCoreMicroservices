@@ -31,6 +31,10 @@ namespace Discount.API.Extensions
                         Connection = connection
                     };
 
+                    command.CommandText = "SELECT * FROM coupon ORDER BY id ASC LIMIT 1";
+                    if (command.ExecuteScalar() != null)
+                        return host;
+                    
                     command.CommandText = "DROP TABLE IF EXISTS Coupon";
                     command.ExecuteNonQuery();
 
