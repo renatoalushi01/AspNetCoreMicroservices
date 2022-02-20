@@ -1,6 +1,5 @@
 # AspNetCoreMicroservices
 
-# AspNetCoreMicroservices
 This project is build with Microservices on .Net platforms which used Asp.Net Web API, Docker, RabbitMQ, MassTransit, Grpc, Ocelot API Gateway, MongoDB, Redis, PostgreSQL, SqlServer, Dapper, Entity Framework Core, CQRS and Clean Architecture implementation
 
 Installing Project:
