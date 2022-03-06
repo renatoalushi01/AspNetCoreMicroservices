@@ -43,7 +43,7 @@ namespace Ordering.Application.Features.Commands.CheckoutOrder
 
         private async Task SendMail(Order order)
         {
-            var email = new Email() { To = "ezozkme@gmail.com", Body = $"Order was created.", Subject = "Order was created" };
+            var email = new Email() { To = order.EmailAddress, Body = $"Your order is successfully created. Total price "+order.TotalPrice , Subject = "Order was created" };
 
             try
             {
