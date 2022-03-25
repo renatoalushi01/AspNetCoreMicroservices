@@ -11,9 +11,7 @@ namespace Catalog.API.Data
         {
             bool existProduct = productCollection.Find(x => true).Any();
             if (!existProduct)
-            {
                 productCollection.InsertManyAsync(GetPreconfiguredProducts());
-            }
         }
 
         private static IEnumerable<Product> GetPreconfiguredProducts()

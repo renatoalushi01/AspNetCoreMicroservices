@@ -17,12 +17,18 @@ namespace Catalog.API.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Product>> GetProducts()
+        public async Task<IEnumerable<Product>> GetProducts(int pageNumber)
         {
-            return await _context
+            var pageSize = 5;
+            pageNumber = (pageNumber - 1) * pageSize;
+            var productList = await _context
                           .Products
                           .Find(x => true)
+                          .Skip(pageNumber)
                           .ToListAsync();
+            
+            productList = productList.Take(pageSize).ToList();
+            return productList;
         }
 
         public async Task<Product> GetProduct(string id)
