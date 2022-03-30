@@ -1,4 +1,5 @@
 ﻿using Catalog.API.Entities;
+using Catalog.API.Extentions;
 using Catalog.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -22,14 +23,12 @@ namespace Catalog.API.Controllers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
+        [Route("[action]/{page}", Name = "GetProducts")]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts(int? page)
+        public async Task<ActionResult<PaginationResult<Product>>> GetProducts(int page)
         {
-            if (page == null)
-                page = 1;
-
-            var products = await _repository.GetProducts(page.Value);
+            var products = await _repository.GetProducts(page);
 
             if (products == null)
                 return BadRequest();
@@ -113,7 +112,8 @@ namespace Catalog.API.Controllers
         }
 
         [Route("[action]/{id}", Name = "DeleteProduct")]
-        [HttpPost("{id:length(24)}")]
+        [HttpPost]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteProductById(string id)
         {

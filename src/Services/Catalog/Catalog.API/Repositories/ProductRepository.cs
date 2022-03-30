@@ -1,5 +1,6 @@
 ﻿using Catalog.API.Data;
 using Catalog.API.Entities;
+using Catalog.API.Extentions;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -17,18 +18,26 @@ namespace Catalog.API.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Product>> GetProducts(int pageNumber)
+        public async Task<PaginationResult<Product>> GetProducts(int pageNumber)
         {
             var pageSize = 5;
             pageNumber = (pageNumber - 1) * pageSize;
-            var productList = await _context
+            var paginationResult = new PaginationResult<Product>
+            {
+                Data = await _context
                           .Products
                           .Find(x => true)
                           .Skip(pageNumber)
-                          .ToListAsync();
-            
-            productList = productList.Take(pageSize).ToList();
-            return productList;
+                          .Limit(pageSize)
+                          .ToListAsync(),
+                Total = await _context
+                          .Products
+                          .Find(x => true)
+                          .CountDocumentsAsync()
+            };
+
+
+            return paginationResult;
         }
 
         public async Task<Product> GetProduct(string id)
